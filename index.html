@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--============== bootstrap file ==============-->
+    <link rel="stylesheet" href="bootstrap-5.1.2/dist/css/bootstrap.css">
+    <script type="text/javascript" src="bootstrap-5.1.2/dist/js/bootstrap.js"></script>
+    <!--============== font awesome file ==============-->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css">
+    <!--============== css file ==============-->
+    <link rel="stylesheet" href="style/index.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <section>
+        <h3 class="text-center text-white">TIC TAC TOE</h3>
+        <div class="row p-2 w-75 m-auto">
+            <input type="text" class="form-control w-75 m-auto" placeholder="First player name" id="first">
+            <input type="text" class="form-control w-75 m-auto mt-2" placeholder="Second player name" id="second">
+            <button class="btn btn-success w-50 mt-2 m-auto" onclick="startGame(event)" id="start">Start</button>
+        </div>
+        <p class="text-white p-2 m-auto w-50" id="output"></p>
+        <div>
+            <table class="w-25 m-auto">
+                <tr>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="one" disabled></button></td>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="two" disabled></button></td>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="three" disabled></button></td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="four" disabled></button></td>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="five" disabled></button></td>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="six" disabled></button></td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="seven" disabled></button></td>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="eight" disabled></button></td>
+                    <td><button class="btn btn-dark w-100" onclick="play(event)" id="nine" disabled></button></td>
+                </tr>
+            </table>
+        </div>
+        <div class="card w-25 m-auto mt-2 text-white bg-dark text-center">
+            <div class="card-body">
+                <span id="user_1"></span> <span id="user1"> 0 </span> <span><i class="fa fa-minus"></i> </span><span
+                    id="user2"> 0</span> <span id="user_2"></span>
+            </div>
+        </div>
+        <div class="m-auto w-25 mt-2">
+            <button class="btn btn-success m-auto w-100" onclick="replay()">Replay</button>
+        </div>
+    </section>
+    <script>
+        let check = true;
+        let win = "wow! You won ";
+        let lose = "oops! You lose ";
+        let draw = " You draw with "
+        let sound = new Audio();
+        sound.src = "audio/Right_Said_Fred_-_Stand_Up_For_The_Champions__[NaijaGreen.Com]_.mp3";
+        function startGame() {
+            let firstPlayer = first.value;
+            let secondPlayer = second.value;
+            if (start.innerText == "Start" && firstPlayer && secondPlayer) {
+                start.innerText = "End";
+                output.innerHTML = firstPlayer + " is X and " + secondPlayer + " is O Start the game!";
+                user_1.innerText = firstPlayer;
+                user_2.innerText = secondPlayer;
+                one.disabled = false;
+                two.disabled = false;
+                three.disabled = false;
+                four.disabled = false;
+                five.disabled = false;
+                six.disabled = false;
+                seven.disabled = false;
+                eight.disabled = false;
+                nine.disabled = false;
+            }
+            else if (start.innerText == "End" && firstPlayer && secondPlayer) {
+                start.innerText = "Start";
+                output.innerHTML = " ";
+                first.value = " ";
+                second.value = " ";
+                user_1.innerText = "",
+                user_2.innerText = "",
+                user1.innerText = "0";
+                user2.innerText = "0";
+                sound.pause();
+                sound.loop = false;
+                one.disabled = true;
+                two.disabled = true;
+                three.disabled = true;
+                four.disabled = true;
+                five.disabled = true;
+                six.disabled = true;
+                seven.disabled = true;
+                eight.disabled = true;
+                nine.disabled = true;
+                one.innerHTML = " ";
+                two.innerHTML = " ";
+                three.innerHTML = " ";
+                four.innerHTML = " ";
+                five.innerHTML = " ";
+                six.innerHTML = " ";
+                seven.innerHTML = " ";
+                eight.innerHTML = " ";
+                nine.innerHTML = " ";
+            }
+            else {
+                start.innerText = "Start";
+                output.innerHTML = "Please enter your name..."
+                one.innerHTML = " ";
+                two.innerHTML = " ";
+                three.innerHTML = " ";
+                four.innerHTML = " ";
+                five.innerHTML = " ";
+                six.innerHTML = " ";
+                seven.innerHTML = " ";
+                eight.innerHTML = " ";
+                nine.innerHTML = " ";
+            }
+
+        }
+
+        function play(e) {
+            if (e.target.innerText != "") return;
+            if (check == true) {
+                e.target.innerText = "X";
+                check = false;
+                output.innerHTML = " ";
+            }
+            else {
+                e.target.innerText = "O";
+                check = true;
+            }
+            if (one.innerHTML == "X" && two.innerHTML == "X" && three.innerHTML == "X" || four.innerHTML == "X" && five.innerHTML == "X" && six.innerHTML == "X" || seven.innerHTML == "X" && eight.innerHTML == "X" && nine.innerHTML == "X" || one.innerHTML == "X" && four.innerHTML == "X" && seven.innerHTML == "X" || two.innerHTML == "X" && five.innerHTML == "X" && eight.innerHTML == "X" || three.innerHTML == "X" && six.innerHTML == "X" && nine.innerHTML == "X" || one.innerHTML == "X" && five.innerHTML == "X" && nine.innerHTML == "X" || three.innerHTML == "X" && five.innerHTML == "X" && seven.innerHTML == "X") {
+                user1.innerText++;
+                output.innerText = win + first.value + ", but " + lose + second.value;
+                sound.play();
+                sound.loop = true;
+                one.disabled = true;
+                two.disabled = true;
+                three.disabled = true;
+                four.disabled = true;
+                five.disabled = true;
+                six.disabled = true;
+                seven.disabled = true;
+                eight.disabled = true;
+                nine.disabled = true;
+            }
+            else if (one.innerHTML == "O" && two.innerHTML == "O" && three.innerHTML == "O" || four.innerHTML == "O" && five.innerHTML == "O" && six.innerHTML == "O" || seven.innerHTML == "O" && eight.innerHTML == "O" && nine.innerHTML == "O" || one.innerHTML == "O" && four.innerHTML == "O" && seven.innerHTML == "O" || two.innerHTML == "O" && five.innerHTML == "O" && eight.innerHTML == "O" || three.innerHTML == "O" && six.innerHTML == "O" && nine.innerHTML == "O" || one.innerHTML == "O" && five.innerHTML == "O" && nine.innerHTML == "O" || three.innerHTML == "O" && five.innerHTML == "O" && seven.innerHTML == "O") {
+                user2.innerText++;
+                output.innerText = win + second.value + ", but " + lose + first.value;
+                sound.play();
+                sound.loop = true;
+                one.disabled = true;
+                two.disabled = true;
+                three.disabled = true;
+                four.disabled = true;
+                five.disabled = true;
+                six.disabled = true;
+                seven.disabled = true;
+                eight.disabled = true;
+                nine.disabled = true;
+            }
+            else if ((one.innerHTML == "O" || one.innerHTML == "X") && (two.innerHTML == "O" || two.innerHTML == "X") && (three.innerHTML == "O" || three.innerHTML == "X") && (four.innerHTML == "O" || four.innerHTML == "X") && (five.innerHTML == "O" || five.innerHTML == "X") && (six.innerHTML == "O" || six.innerHTML == "X") && (seven.innerHTML == "O" || seven.innerHTML == "X") && (eight.innerHTML == "O" || eight.innerHTML == "X") && (nine.innerHTML == "O" || nine.innerHTML == "X")) {
+                output.innerText = "oops! " + first.value + draw + second.value;
+            }
+        }
+
+        function replay() {
+            sound.pause();
+            sound.currentTime = 0;
+            output.innerHTML = " ";
+            one.disabled = false;
+            two.disabled = false;
+            three.disabled = false;
+            four.disabled = false;
+            five.disabled = false;
+            six.disabled = false;
+            seven.disabled = false;
+            eight.disabled = false;
+            nine.disabled = false;
+            one.innerHTML = " ";
+            two.innerHTML = " ";
+            three.innerHTML = " ";
+            four.innerHTML = " ";
+            five.innerHTML = " ";
+            six.innerHTML = " ";
+            seven.innerHTML = " ";
+            eight.innerHTML = " ";
+            nine.innerHTML = " ";
+        }
+    </script>
+</body>
+
+</html>
